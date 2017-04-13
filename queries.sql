@@ -96,14 +96,18 @@ group by ge.name
 alter table song add column song_length text ;
 alter table album add column album_length text;
 
+begin transaction
 update album set album_length = '47:23' where name = 'Abbey Road'
 update album set album_length = '35:50' where name = 'Rubber Soul'
 update album set album_length = '34:43' where name = 'Revolver'
 update album set album_length = '93:35' where name = 'The White Album'
 update album set album_length = '35:10' where name = 'Let It Be'
+--rollback transaction
+commit transaction
 
 select * from song;
 
+begin transaction
 update song set song_length = '2:25' where name = 'Drive My Car'
 update song set song_length = '2:05' where name = 'Norwegian Wood'
 update song set song_length = '2:39' where name = 'Taxman'
@@ -112,6 +116,8 @@ update song set song_length = '4:20' where name = 'Come Together'
 update song set song_length = '2:26' where name = 'Sun King'
 update song set song_length = '4:03' where name = 'Let It Be'
 update song set song_length = '3:09' where name = 'Get Back'
+--rollback transaction
+commit transaction
 
 select max(album_length) as 'Length of Album', name 
 from album
